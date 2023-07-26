@@ -44,7 +44,7 @@ class Tolov(models.Model):
     yollanma = models.ForeignKey(Yollanma, on_delete=models.CASCADE,null=True,blank=True)
     joylashtirish = models.ForeignKey(Joylashtirish, on_delete=models.CASCADE,null=True,blank=True)
     summa = models.PositiveSmallIntegerField()
-    tolangan_summa = models.JSONField(default=list())
+    tolangan_summa = models.JSONField(default=list()) #[{"summa":}]
     tolandi = models.BooleanField(default=False)
     haqdor = models.BooleanField(default=False)
     sana = models.DateField(null=True,blank=True)

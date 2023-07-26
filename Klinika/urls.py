@@ -17,6 +17,8 @@ urlpatterns = [
     path('xonalar/', XonalarAPIView.as_view()),
     path('bosh_xonalar/', BoshXonalarAPIView.as_view()),
     path('tolovlar/', TolovlarAPIView.as_view()),
+    path('tolovlar/<int:pk>/',TolovDetailView.as_view()),
+    path('yollanmalar/', YollanmalarAPIView.as_view()),
     path('bemor/<int:pk>/tolovlar/', BemorTolovlarAPIView.as_view()),
     path('qarzdorliklar/', TolanmaganTolovlarAPIView.as_view()),
 ]
