@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from django.shortcuts import render
+from django.utils.datetime_safe import date
 from rest_framework.decorators import action
 
 from rest_framework.views import APIView
@@ -91,6 +92,10 @@ class JoylashtirishModelViewSet(ModelViewSet):
                 xona = joylashtirish.xona
                 xona.bosh_joy_soni += 2
                 xona.save()
+            else:
+                xona = joylashtirish.xona
+                xona.bosh_joy_soni += 1
+                xona.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -98,6 +103,16 @@ class JoylashtirishModelViewSet(ModelViewSet):
 
 class TolovlarAPIView(APIView):
     def get(self, request):
+        t_s = Tolov.objects.filter(joylashtirish__isnull = False, joylashtirish__ketish_sana__isnull = True)
+        print(t_s)
+        for i in t_s:
+            kun_soni = (date.today() - i.joylashtirish.kelgan_sana).days
+            kun_soni += 1
+            i.summa = kun_soni * i.joylashtirish.xona.narx
+            if i.joylashtirish.qarovchi:
+                i.summa = i.summa * 2
+            i.save()
+            # print(kun_soni.days, type(kun_soni.days))
         tolovlar = Tolov.objects.all()
         serializer = TolovSerializer(tolovlar, many=True)
         return Response(serializer.data)
